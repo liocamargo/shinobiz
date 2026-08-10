@@ -11,14 +11,14 @@ Cronología de referencia del universo de **Naruto** en una sola página HTML: d
 
 ## Cómo correrlo
 
-Todo vive en un único archivo: `index.html`. Abrilo directo en el navegador o servilo:
+`index.html` + `css/style.css` + `js/script.js`. Abrilo directo en el navegador o servilo:
 
 ```bash
 python3 -m http.server 8000
 # → http://localhost:8000/
 ```
 
-Todas las fuentes de datos son constantes en JS dentro de `index.html`:
+Todas las fuentes de datos son constantes en JS dentro de `js/script.js`:
 
 | Constante | Qué es |
 | --- | --- |
@@ -37,8 +37,9 @@ Los retratos se cargan desde `img/<id>.png` con canal alpha; si el archivo no ex
 ```
 img/          Retratos de personajes (512×512, PNG transparente, nombre = id)
 aldeas/       Emblema opcional por era: aldeas/<id-era>.png
-clanes/       Emblemas de la era Clanes
 logo/         logo.png (sidebar) y Naruto_logo.svg (favicon)
+css/          style.css
+js/           script.js (datos + lógica)
 ```
 
 Los encabezados de era intentan cargar `aldeas/<id-era>.png`; si la imagen existe reemplaza el kanji de la era, si no, se muestra el kanji.
