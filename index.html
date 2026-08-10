@@ -148,6 +148,8 @@ h1,h2,h3,h4{font-family:"Open Sans",system-ui,sans-serif;font-weight:800;margin:
 .hint{font-size:10.5px;line-height:1.6;color:var(--washi-faint);margin:12px 0 0}
 .hint code{color:var(--kin);font-family:ui-monospace,monospace;font-size:10.5px}
 .side>footer{margin-top:22px;padding-top:16px;border-top:1px solid var(--rule);font-size:10px;line-height:1.7;color:var(--washi-faint)}
+.side>footer a{color:var(--washi-faint);text-decoration:underline;text-decoration-color:var(--rule-strong)}
+.side>footer a:hover{color:var(--washi)}
 
 .theme-toggle{
   width:100%;margin-bottom:16px;padding:8px 12px;border-radius:3px;
@@ -384,13 +386,24 @@ h3.sec{font-size:19px;margin-bottom:15px;padding-bottom:9px;border-bottom:1px so
   .m-fbtn:hover{color:var(--washi);border-color:var(--rule-strong)}
   .m-fbtn svg{width:15px;height:15px;flex:none}
   .m-tabbar{
-    display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;
+    display:grid;grid-template-columns:1fr 1fr 1fr;
     position:fixed;left:0;right:0;bottom:0;z-index:70;
-    padding:7px 10px calc(7px + env(safe-area-inset-bottom));
+    padding:6px 8px calc(4px + env(safe-area-inset-bottom));
     border-top:1px solid var(--rule);
-    background:var(--side-bg);backdrop-filter:blur(8px);
+    background:var(--side-bg);backdrop-filter:blur(14px) saturate(1.4);
+    box-shadow:0 -6px 22px var(--shadow);
   }
-  .m-tabbar .tab{text-align:center;font-size:10.5px;padding:11px 4px;border-radius:5px}
+  .m-tabbar .tab{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+    text-align:center;border:none;background:none;color:var(--washi-faint);
+    font-size:10px;font-weight:600;letter-spacing:0;text-transform:none;
+    padding:6px 4px 5px;border-radius:12px;transition:color .18s;
+  }
+  .m-tabbar .tab .ico{width:22px;height:22px;flex:none;transition:transform .18s}
+  .m-tabbar .tab:hover{color:var(--washi-faint)}
+  .m-tabbar .tab[aria-selected="true"]{background:none;border-color:transparent;color:var(--shu)}
+  .m-tabbar .tab[aria-selected="true"] .ico{transform:translateY(-1px) scale(1.08)}
+  .m-tabbar .tab:active .ico{transform:scale(.9)}
   .side{
     position:fixed;top:var(--m-top-h);left:0;right:0;bottom:calc(var(--m-tab-h) + env(safe-area-inset-bottom));
     width:auto;z-index:65;padding:16px 18px 24px;
@@ -478,7 +491,7 @@ h3.sec{font-size:19px;margin-bottom:15px;padding-bottom:9px;border-bottom:1px so
     <p class="hint">Clasificación canon / mixto / relleno según el registro episodio por episodio de animefillerlist.com.</p>
   </div>
 
-  <footer>Shinobiz · cronología de referencia del universo de Naruto. Fechas relativas al inicio de la Parte I (Año 0).<br>La clasificación canon / mixto / relleno sigue el registro episodio por episodio de animefillerlist.com.</footer>
+  <footer>Shinobiz · cronología de referencia del universo de Naruto. Fechas relativas al inicio de la Parte I (Año 0).<br>La clasificación canon / mixto / relleno sigue el registro episodio por episodio de <a href="https://www.animefillerlist.com/shows/naruto" target="_blank" rel="noopener">animefillerlist.com</a>.</footer>
 </aside>
 
 <main class="main">
@@ -517,9 +530,18 @@ h3.sec{font-size:19px;margin-bottom:15px;padding-bottom:9px;border-bottom:1px so
 </main>
 
 <nav class="m-tabbar" role="tablist" aria-label="Vistas">
-  <button class="tab" role="tab" id="mtab-linea" aria-selected="true" aria-controls="view-linea">Línea</button>
-  <button class="tab" role="tab" id="mtab-aldeas" aria-selected="false" aria-controls="view-aldeas">Personajes</button>
-  <button class="tab" role="tab" id="mtab-relleno" aria-selected="false" aria-controls="view-relleno">Canon</button>
+  <button class="tab" role="tab" id="mtab-linea" aria-selected="true" aria-controls="view-linea">
+    <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l2.2-6.5L12.8 18 15 12h6"/></svg>
+    <span>Línea</span>
+  </button>
+  <button class="tab" role="tab" id="mtab-aldeas" aria-selected="false" aria-controls="view-aldeas">
+    <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.2" r="3.4"/><path d="M5 20c0-3.9 3.13-6.4 7-6.4s7 2.5 7 6.4"/></svg>
+    <span>Personajes</span>
+  </button>
+  <button class="tab" role="tab" id="mtab-relleno" aria-selected="false" aria-controls="view-relleno">
+    <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="4.5" width="17" height="15" rx="2.4"/><path d="M3.5 9.6h17"/></svg>
+    <span>Canon</span>
+  </button>
 </nav>
 
 <script>
