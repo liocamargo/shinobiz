@@ -308,29 +308,31 @@ h1,h2,h3,h4{font-family:"Open Sans",system-ui,sans-serif;font-weight:800;margin:
 .vhead h2{font-size:21px}
 .vhead .sub{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--washi-dim)}
 .vdesc{max-width:760px;font-size:13.6px;color:var(--washi-dim);margin:0 0 18px}
-.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:12px}
+.people{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px}
 .pc{
-  position:relative;background:var(--card);
-  border:1px solid var(--rule);border-bottom:2px solid var(--vc);border-radius:5px;
-  padding:14px 11px 13px;text-align:center;transition:.18s;
+  position:relative;display:flex;flex-direction:column;text-align:center;
+  background:var(--card);
+  border:1px solid var(--rule);border-bottom:2px solid var(--vc);border-radius:6px;
+  padding:16px 12px 14px;
+  transition:transform .18s,border-color .2s,box-shadow .2s;
 }
-.pc:hover{border-color:var(--rule-strong);transform:translateY(-2px)}
-.pc{display:flex;flex-direction:column}
-.pc .also{margin-top:auto;padding-top:8px}
+.pc:hover{transform:translateY(-3px);border-color:var(--rule-strong);box-shadow:0 14px 26px -16px var(--shadow)}
+.pc .also{margin-top:auto;padding-top:9px}
 .pc.proto{border-color:color-mix(in srgb,var(--kin) 45%,var(--rule));border-bottom-color:var(--kin);box-shadow:0 10px 22px -16px color-mix(in srgb,var(--kin) 55%,transparent)}
-.pc.proto .face{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--kin) 75%,transparent),0 4px 12px -4px rgba(0,0,0,.7)}
+.pc.proto .face{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--kin) 75%,transparent),0 6px 14px -6px color-mix(in srgb,var(--kin) 60%,transparent)}
 .pc .proto-tag{position:absolute;top:8px;right:8px;width:22px;height:22px;display:grid;place-items:center;font-family:"Shippori Mincho B1",serif;font-size:12px;font-weight:800;color:var(--kin);background:color-mix(in srgb,var(--kin) 18%,transparent);border:1px solid color-mix(in srgb,var(--kin) 55%,transparent);border-radius:50%}
 .pc .face{
-  position:relative;width:80px;height:80px;margin:0 auto 11px;border-radius:6px;overflow:hidden;
+  position:relative;width:88px;height:88px;margin:0 auto 12px;border-radius:8px;overflow:hidden;
+  box-shadow:0 5px 14px -6px var(--shadow);
 }
 .pc .face img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2}
 .pc .face .ph{
   position:absolute;inset:0;display:grid;place-items:center;z-index:1;
-  font-family:"Shippori Mincho B1",serif;font-size:30px;color:color-mix(in srgb,var(--vc) 55%,transparent);
+  font-family:"Shippori Mincho B1",serif;font-size:32px;color:color-mix(in srgb,var(--vc) 55%,transparent);
 }
-.pc .nm{display:block;font-size:12.8px;font-weight:700;line-height:1.35;margin-bottom:3px}
-.pc .rl{display:block;font-size:10.5px;line-height:1.45;color:var(--washi-dim)}
-.pc .also{display:flex;justify-content:center;gap:4px;font-family:"Shippori Mincho B1",serif;font-size:12px}
+.pc .nm{display:block;font-size:13px;font-weight:700;line-height:1.3;margin-bottom:3px}
+.pc .rl{display:block;font-size:10.5px;line-height:1.45;color:var(--washi-dim);min-height:2.9em}
+.pc .also{display:flex;justify-content:center;gap:5px;font-family:"Shippori Mincho B1",serif;font-size:12px}
 
 /* ---------- CANON VS RELLENO ---------- */
 .lede{max-width:640px;margin:0 0 24px;font-size:15px;color:var(--washi-dim)}
@@ -1240,7 +1242,8 @@ function visibleChars(id){
   const hit = CHARS.filter(c=>c[1].includes(id))
     .filter(c=>!cstate.q || (c[0]+" "+c[2]).toLowerCase().includes(cstate.q));
   const byAffil = [...hit.filter(c=>c[1][0]===id), ...hit.filter(c=>c[1][0]!==id)];
-  return [...byAffil.filter(c=>PROTA.has(c[0])), ...byAffil.filter(c=>!PROTA.has(c[0]))];
+  const sortN = arr => [...arr].sort((a,b)=>a[0].localeCompare(b[0],"es"));
+  return [...sortN(byAffil.filter(c=>PROTA.has(c[0]))), ...sortN(byAffil.filter(c=>!PROTA.has(c[0])))];
 }
 
 function loadFace(fig){
