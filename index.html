@@ -359,12 +359,45 @@ h3.sec{font-size:19px;margin-bottom:15px;padding-bottom:9px;border-bottom:1px so
 .plan p{margin:0;font-size:13.4px;color:var(--washi-dim)}
 .plan code{display:block;font-family:ui-monospace,monospace;font-size:12px;color:var(--washi-dim);line-height:1.9;word-break:break-word;margin:12px 0 10px;padding:11px 13px;background:var(--code-bg);border-radius:3px}
 
+/* ---------- MOBILE TOP BAR + TABBAR (ocultos en desktop) ---------- */
+.m-top,.m-tabbar{display:none}
+
 /* ---------- RESPONSIVE ---------- */
 @media (max-width:980px){
+  --m-top-h:54px; --m-tab-h:62px;
   body{overflow:auto}
-  .side{position:static;width:auto;height:auto;border-right:none;border-bottom:1px solid var(--rule)}
-  .main{margin-left:0;height:auto}
-  .tabs{grid-template-columns:1fr 1fr 1fr}
+  .m-top{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    position:fixed;top:0;left:0;right:0;z-index:70;height:var(--m-top-h);
+    padding:0 14px;border-bottom:1px solid var(--rule);
+    background:var(--side-bg);backdrop-filter:blur(8px);
+  }
+  .m-top img{height:32px;width:auto}
+  .m-fbtn{
+    display:inline-flex;align-items:center;gap:7px;appearance:none;
+    border:1px solid var(--rule);background:var(--chip-bg);color:var(--washi-dim);
+    font-family:inherit;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    padding:8px 12px;border-radius:3px;cursor:pointer;transition:.18s;
+  }
+  .m-fbtn:hover{color:var(--washi);border-color:var(--rule-strong)}
+  .m-fbtn svg{width:15px;height:15px;flex:none}
+  .m-tabbar{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;
+    position:fixed;left:0;right:0;bottom:0;z-index:70;
+    padding:7px 10px calc(7px + env(safe-area-inset-bottom));
+    border-top:1px solid var(--rule);
+    background:var(--side-bg);backdrop-filter:blur(8px);
+  }
+  .m-tabbar .tab{text-align:center;font-size:10.5px;padding:11px 4px;border-radius:5px}
+  .side{
+    position:fixed;top:var(--m-top-h);left:0;right:0;bottom:calc(var(--m-tab-h) + env(safe-area-inset-bottom));
+    width:auto;z-index:65;padding:16px 18px 24px;
+    border-right:none;border-top:1px solid var(--rule);
+    transform:translateX(104%);transition:transform .28s ease;
+  }
+  .side.open{transform:none}
+  .side .plate-band,.side .tag,.side .mini,.side .tabs,.side>footer{display:none}
+  .main{margin-left:0;margin-top:var(--m-top-h);height:auto;padding-bottom:calc(var(--m-tab-h) + env(safe-area-inset-bottom))}
   .tab{text-align:center;font-size:10px;padding:9px 6px}
   .view{height:auto}
   .track{height:74vh;padding:0 20px}
@@ -382,6 +415,16 @@ h3.sec{font-size:19px;margin-bottom:15px;padding-bottom:9px;border-bottom:1px so
 <link rel="icon" href="logo/Naruto_logo.svg" type="image/svg+xml">
 </head>
 <body>
+
+<header class="m-top">
+  <img src="logo/logo.png" alt="Shinobiz">
+  <button class="m-fbtn" id="m-filters" type="button" aria-expanded="false" aria-controls="side" aria-label="Abrir filtros">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+      <path d="M1.5 4.5h13M3.5 8h9M6 11.5h4"/>
+    </svg>
+    Filtros
+  </button>
+</header>
 
 <aside class="side">
   <div class="plate-band"><img src="logo/logo.png" alt="Shinobiz"></div>
@@ -470,6 +513,12 @@ h3.sec{font-size:19px;margin-bottom:15px;padding-bottom:9px;border-bottom:1px so
     </div>
   </section>
 </main>
+
+<nav class="m-tabbar" role="tablist" aria-label="Vistas">
+  <button class="tab" role="tab" id="mtab-linea" aria-selected="true" aria-controls="view-linea">Línea</button>
+  <button class="tab" role="tab" id="mtab-aldeas" aria-selected="false" aria-controls="view-aldeas">Personajes</button>
+  <button class="tab" role="tab" id="mtab-relleno" aria-selected="false" aria-controls="view-relleno">Canon</button>
+</nav>
 
 <script>
 const V = {
@@ -1347,12 +1396,31 @@ function showTab(which){
   VIEWS.forEach(v=>{
     const on = v===which;
     document.getElementById("tab-"+v).setAttribute("aria-selected", on);
+    const mt = document.getElementById("mtab-"+v);
+    if(mt) mt.setAttribute("aria-selected", on);
     document.getElementById("view-"+v).hidden = !on;
     document.getElementById("panel-"+v).hidden = !on;
   });
   if(which==="linea") requestAnimationFrame(updateProgress);
+  closeDrawer();
 }
-VIEWS.forEach(v=>document.getElementById("tab-"+v).addEventListener("click",()=>showTab(v)));
+VIEWS.forEach(v=>{
+  document.getElementById("tab-"+v).addEventListener("click",()=>showTab(v));
+  const mt = document.getElementById("mtab-"+v);
+  if(mt) mt.addEventListener("click",()=>showTab(v));
+});
+
+/* ============ MOBILE DRAWER (filtros) ============ */
+const mBtn = document.getElementById("m-filters");
+const sideDrawer = document.querySelector(".side");
+let drawerOpen = false;
+function setDrawer(open){
+  drawerOpen = open;
+  sideDrawer.classList.toggle("open", open);
+  mBtn.setAttribute("aria-expanded", String(open));
+}
+function closeDrawer(){ setDrawer(false); }
+if(mBtn && sideDrawer) mBtn.addEventListener("click",()=>setDrawer(!drawerOpen));
 
 /* ============ TEMA CLARO / OSCURO ============ */
 const tBtn = document.getElementById("theme-toggle");
