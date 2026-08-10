@@ -1157,7 +1157,7 @@ function render(){
       const moreHtml = rest>0
         ? `<button class="cchip more" data-affils="${[...eraAffils].join(",")}">+${rest} más</button>` : "";
       html += `<div class="charlane">
-        <span class="ll">人 ${inEra.length} personajes de esta era</span>
+        <span class="ll">人 ${inEra.length} personajes</span>
         <div class="cwrap">${chipsHtml}${moreHtml || ""}</div>
       </div>`;
     }
@@ -1174,7 +1174,7 @@ function render(){
           <span class="epct">${pct}% relleno en este tramo</span>
         </div>`;
       } else {
-        html += `<div class="episodelane muted"><span class="ll">映 Sin arco propio en el anime — aparece disperso en flashbacks.</span></div>`;
+        html += `<div class="episodelane muted"><span class="ll">Sin arco</span></div>`;
       }
     }
     html += `</section>`;
