@@ -11,16 +11,14 @@ Cronología de referencia del universo de **Naruto** en una sola página HTML: d
 
 ## Cómo correrlo
 
-Todo vive en un único archivo: `shinobiz.html`. Abrilo directo en el navegador o servilo:
+Todo vive en un único archivo: `index.html`. Abrilo directo en el navegador o servilo:
 
 ```bash
 python3 -m http.server 8000
-# → http://localhost:8000/shinobiz.html
+# → http://localhost:8000/
 ```
 
-## Cómo editar los datos
-
-Todas las fuentes de datos son constantes en JS dentro de `shinobiz.html`:
+Todas las fuentes de datos son constantes en JS dentro de `index.html`:
 
 | Constante | Qué es |
 | --- | --- |
